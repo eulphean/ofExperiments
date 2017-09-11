@@ -21,6 +21,16 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
   
-    void stripePattern();
+    void audioIn(ofSoundBuffer &inBuffer);
+  
+    vector <float> left;
+		vector <float> right;
+		vector <float> volHistory;
 		
+		float smoothedVol;
+		float scaledVol;
+		
+		ofSoundStream soundStream;
+  
+    void stripePattern();
 };
