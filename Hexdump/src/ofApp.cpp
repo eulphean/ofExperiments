@@ -4,6 +4,10 @@
 using namespace std;
 
 ofPoint center;
+int length = 20;
+
+// Starting counter is 10,10
+// Calculate how many rectangles can fit on the screen
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -53,22 +57,18 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw(){
   // Ask Chris if there is a way to print this.
-  int numOfLines = decimals.size()/500;
-  float offset = ofGetWidth() / numOfLines;
+  // int numOfRectangles = decimals.size()/1000;
   
-  // Iterator for the color
+  // Iterator for the color.
   vector<int>::iterator it = decimals.begin();
-  for (float y = 0; y <= ofGetHeight(); y += offset) {
-    // Calculate the color by mapping the current decimal to Hue value.
-    float hue = ofMap(*it, minDecimal, maxDecimal, 0, 255);
-    ofSetColor(ofColor::fromHsb(hue, 255, 255));
-    
-    ofPoint from (0, y);
-    ofPoint to (ofGetWidth(), y);
-    
-    ofDrawLine(from, to);
-    
-    // Increment iterator for next color.
-    it++;
+  for (int y = 0; y <= ofGetHeight(); y += length) {
+    for (int x = 0; x <= ofGetWidth(); x += length) {
+      // Calculate the new color.
+      float hue = ofMap(*it, minDecimal, maxDecimal, 0, 255);
+      ofSetColor(ofColor::fromHsb(hue, 255, 255));
+      ofFill();
+      ofDrawRectangle(x, y, length, length);
+      it++;
+    }
   }
 }
