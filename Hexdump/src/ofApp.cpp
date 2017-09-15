@@ -8,7 +8,7 @@ ofPoint center;
 //--------------------------------------------------------------
 void ofApp::setup(){
   // Read the decimal file and store it in memory.
-  inputFile.open("music.txt");
+  inputFile.open("audioDecimal.txt");
   
   string stringDec;
   
@@ -52,13 +52,23 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  for (vector<int>::iterator it = decimals.begin(); it != decimals.end(); it++) {
+  // Ask Chris if there is a way to print this.
+  int numOfLines = decimals.size()/500;
+  float offset = ofGetWidth() / numOfLines;
+  
+  // Iterator for the color
+  vector<int>::iterator it = decimals.begin();
+  for (float y = 0; y <= ofGetHeight(); y += offset) {
+    // Calculate the color by mapping the current decimal to Hue value.
     float hue = ofMap(*it, minDecimal, maxDecimal, 0, 255);
     ofSetColor(ofColor::fromHsb(hue, 255, 255));
     
-    // Draw a line with a color represented by the hue.
-    ofPoint from(center.x, center.y);
-    ofPoint to(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()));
+    ofPoint from (0, y);
+    ofPoint to (ofGetWidth(), y);
+    
     ofDrawLine(from, to);
+    
+    // Increment iterator for next color.
+    it++;
   }
 }
