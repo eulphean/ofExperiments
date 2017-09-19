@@ -1,4 +1,6 @@
-48
+clear
+clear
+	I:Wq48
 48
 32
 32
