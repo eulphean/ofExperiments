@@ -12,23 +12,52 @@ void ofApp::setup(){
   ofSetBackgroundColor(ofColor::black);
   
   // Load and play the track.
-  track.load("track.wav");
-  track.setVolume(0.75f);
-  track.setLoop(true);
-  track.play();
+  track1.load("track.wav");
+  track2.load("howtostillmind.mp3");
+  track3.load("thiswillchangeyourmind.mp3");
+  
+  track1.setVolume(0.75f);
+  track2.setVolume(0.75f);
+  track3.setVolume(0.75f);
+  
+  track1.setLoop(true);
+  track2.setLoop(true);
+  track3.setLoop(true);
 }
 
 void ofApp::updateSound() {
-  // x => track speed.
-  float newSpeed = ofMap(mappedOsc.x, 0, ofGetWidth(), 0.5f, 2.0f);
-  track.setSpeed(newSpeed);
+  // x => Speed will decrease as we move farther in x - direction.
+  float newSpeed = ofMap(mappedOsc.x, 30, ofGetWidth(), 1.0f, 0.5f, true);
+  if (currentTrack != NULL) {
+    currentTrack -> setSpeed(newSpeed);
+  }
   
-  // y => track volume.
-  float newVolume = ofMap(mappedOsc.y, 0, ofGetHeight(), 0.1f, 2.0f);
-  track.setVolume(newVolume);
+  // y => Volume will increase as we move farther in y - direction.
+  /*float newVolume = ofMap(mappedOsc.y, 0, ofGetHeight(), 0.1f, 2.0f);
+  currentTrack -> setVolume(newVolume);*/
 }
 
-//--------------------------------------------------------------
+void ofApp::setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack) {
+  if (val) {
+    // Check if there is alread a currentTrack that's playing.
+    // Stop that track.
+    if (currentTrack != NULL) {
+      currentTrack -> stop();
+      currentTrack = NULL;
+    }
+    
+    currentTrack = newCurrentTrack;
+    currentTrack -> play();
+  } else {
+    
+    // Stop the track if there is a valid current track.
+    if (currentTrack != NULL) {
+      currentTrack -> stop();
+      currentTrack = NULL;
+    }
+  }
+}
+
 void ofApp::update(){
   // Read the data on oscController.
   while (receive.hasWaitingMessages()) {
@@ -36,6 +65,22 @@ void ofApp::update(){
     // Set the next message.
     #pragma warning(disable: WARNING_CODE)
     receive.getNextMessage(&m);
+    
+    // Get the current track.
+    if (m.getAddress() == "/3/toggle1") {
+      int val = m.getArgAsInt(0);
+      setCurrentTrackAndPlay(val, &track1);
+    }
+    
+    if (m.getAddress() == "/3/toggle2") {
+      int val = m.getArgAsInt(0);
+      setCurrentTrackAndPlay(val, &track2);
+    }
+    
+    if (m.getAddress() == "/3/toggle3") {
+      int val = m.getArgAsInt(0);
+      setCurrentTrackAndPlay(val, &track3);
+    }
     
     // Parse the values from XY pad.
     if (m.getAddress() == "/3/xy") {
@@ -53,4 +98,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
   ofDrawCircle(mappedOsc.x, mappedOsc.y, 30);
+  
+  // Show the text
+  ofDrawBitmapString("SYSTEM", 940, ofGetHeight()/2);
 }

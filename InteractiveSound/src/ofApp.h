@@ -13,8 +13,13 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
     void updateSound();
+    void setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack);
   
     ofxOscReceiver receive;
     ofVec2f mappedOsc;
-    ofSoundPlayer track;
+    ofSoundPlayer track1;
+    ofSoundPlayer track2;
+    ofSoundPlayer track3;
+  
+    ofSoundPlayer *currentTrack = NULL;
 };
