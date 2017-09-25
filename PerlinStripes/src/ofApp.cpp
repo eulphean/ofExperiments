@@ -1,3 +1,7 @@
+// Author: Amay Kataria
+// Description: Stripe pattern with perlin noise.
+// Date: 9/25/2017
+
 #include "ofApp.h"
 
 int maxLines = 60;
