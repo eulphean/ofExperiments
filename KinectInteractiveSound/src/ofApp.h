@@ -7,12 +7,14 @@
 class ofApp : public ofBaseApp{
 
 	public:
-    const skipPixel = 5;
-    const minBrightness = 2500;
+    const int pixelSkip = 3;
+    const int minBrightness = 2500;
 
 		void setup();
 		void update();
 		void draw();
+  
+  void updateSound();
   
     ofxPanel panel;
     ofxKinectV2 * kinect;
@@ -20,5 +22,7 @@ class ofApp : public ofBaseApp{
   
     float avgX;
     float avgY;
-    float avgBrightness; 
+    float avgBrightness;
+  
+    ofSoundPlayer track1; 
 };

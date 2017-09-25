@@ -1,7 +1,7 @@
 <group>
-	<kinectV2>
-		<minDistance>734.694</minDistance>
-		<maxDistance>857.143</maxDistance>
-	</kinectV2>
+	<kinectV2_502087641942>
+		<minDistance>0</minDistance>
+		<maxDistance>9000</maxDistance>
+	</kinectV2_502087641942>
 <group/>
 </group>
