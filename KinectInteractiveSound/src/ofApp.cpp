@@ -2,6 +2,14 @@
 
 using namespace std;
 
+int minPixelVal = 150;
+int maxPixelVal = 165;
+
+float maxSpeedVal = 1.0f;
+float minSpeedVal = 0.3f;
+
+int customThresholdPixelVal = 100;
+
 //--------------------------------------------------------------
 void ofApp::setup(){
   //Uncomment for verbose info from libfreenect2
@@ -35,7 +43,7 @@ void ofApp::setup(){
 }
 
 void ofApp::updateSound() {
-  float newSpeed = ofMap(avgBrightness, 150, 165, 1.0f, 0.3f, true);
+  float newSpeed = ofMap(avgBrightness, minPixelVal, maxPixelVal, maxSpeedVal, minSpeedVal, true);
   track1.setSpeed(newSpeed);
 }
 
@@ -60,11 +68,15 @@ void ofApp::update(){
       
       for (int x = 0; x < width; x += pixelSkip) {
         for (int y = 0; y < height; y += pixelSkip) {
+          
+          // Index of this pixel in 1D array.
           int pixelIndex = x + y * width;
-          // Check if the brightness of this pixel is greater than my
-          // minimum brightness.
+          
+          // Is the current pixelVal > customThresholdPixelVal?
+          // This is to start averaging out the brightness pixels
+          // for calculating average brightness.
           int pixelVal = (int) pixels[pixelIndex];
-          if (pixelVal > 100) {
+          if (pixelVal > customThresholdPixelVal) {
             sumX += x;
             sumY += y;
             sumBrightness += pixels[pixelIndex];
@@ -73,6 +85,8 @@ void ofApp::update(){
         }
       }
       
+      // Valid pixels within that threshold? Update sound based on this
+      // data.
       if (numPixels != 0) {
         // Calculate average pixel values.
         avgX = sumX / numPixels;
@@ -87,21 +101,18 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  // Depth texture at 10,10.
+  // Draw the depth image.
   depthTexture.draw(0, 0);
   
   ofPushStyle();
   
-  // Draw a small circle at (avgX, avgY)
+  // Draw a circle at (avgX, avgY)
   ofSetColor(ofColor::purple);
   ofFill();
   ofDrawCircle(avgX, avgY, 20);
   ofDrawBitmapString(avgBrightness, ofGetWidth()/2, ofGetHeight()/2);
   
   ofPopStyle();
-  
-  // Change the sound based on avgBrightness.
-  // Map the brightness to speed of the sound.
   
   // Threshold panel.
   panel.draw();
