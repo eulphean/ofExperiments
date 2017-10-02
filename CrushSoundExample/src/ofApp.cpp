@@ -9,10 +9,7 @@ void ofApp::setup(){
   //--------PATCHING-------
   sample.load("/Users/amaykataria/Documents/of_v0.9.8_osx_release/apps/Experiments/CrushSoundExample/bin/data/howtostillmind.mp3");
   
-  //sampler0 >> amp0 >> fader0;
-  //sampler1 >> amp1 >> fader1;
-  
-  
+  // Sample 0, 1 are taking the sample buffer.
   sampler0.addSample( &sample, 0 );
   sampler1.addSample( &sample, 1 );
   
