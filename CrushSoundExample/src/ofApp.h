@@ -32,5 +32,9 @@ class ofApp : public ofBaseApp{
 
     ofxPanel gui;
     ofxPDSPValue        osc_decimator_ctrl;
+    ofxPDSPValue        osc_noise_pitch_ctrl;
+    ofxPDSPValue        osc_noise_bit_ctrl;
     ofParameterGroup    osc1_group;
+  
+    pdsp::BitNoise      noise;
 };

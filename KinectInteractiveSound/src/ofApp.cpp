@@ -60,12 +60,28 @@ void ofApp::updateSound() {
     if (currentTrack != NULL) {
       currentTrack -> setSpeed(newSpeed);
     }
+    
+    // Reset noise
+    noise * dB(-150.0f) >> engine.audio_out(0);
+    noise * dB(-150.0f) >> engine.audio_out(1);
   } else {
     // Calculate the new decimator frequency based on the brightness.
-    float newDecimatorFrequency = ofMap(avgBrightness, 150, 160, 20000, 1000, true);
+    float newDecimatorFrequency = ofMap(avgBrightness, 150, 156, 30000, 1000, true);
     
     // Feed it to the decimator patch.
     newDecimatorFrequency >> decimator.in_freq();
+    
+    // Noise control. We will keep default pitch.
+    
+    // Modify noise bit.
+    float noiseBit = ofMap(avgBrightness, 150, 165, 1, 12, true);
+    noiseBit >> noise.in_bits();
+    
+    // Modify gain.
+    noiseGain = ofMap(avgBrightness, 150, 165, -40.0f, -10.0f, true);
+    
+    noise * dB(noiseGain) >> engine.audio_out(0);
+    noise * dB(noiseGain) >> engine.audio_out(1);
   }
 }
 

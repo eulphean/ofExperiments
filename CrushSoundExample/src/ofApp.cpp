@@ -17,6 +17,12 @@ void ofApp::setup(){
   envGate >> env >> amp0.in_mod();
   env >> amp1.in_mod();
   
+  osc_noise_pitch_ctrl >> noise.in_pitch();
+  osc_noise_bit_ctrl >> noise.in_bits();
+  
+  noise * dB(-24.0f) >> amp0 >> engine.audio_out(0);
+  noise * dB(-24.0f) >> amp1 >> engine.audio_out(1);
+  
   sampleTrig >> sampler0 >> amp0 >> decimator >> engine.audio_out(0);
   sampleTrig >> sampler1 >> amp1 >> decimator >> engine.audio_out(1);
   
@@ -25,7 +31,9 @@ void ofApp::setup(){
   
   // Setup the GUI.
   gui.setup("Decimator");
-  osc1_group.add( osc_decimator_ctrl.set( "decimal", 44100, 200, 50000) );
+  osc1_group.add( osc_decimator_ctrl.set( "decimator", 44100, 200, 50000) );
+  osc1_group.add( osc_noise_pitch_ctrl.set( "pitch", -100.0f, 10.0f, 100.0f) );
+  osc1_group.add( osc_noise_bit_ctrl.set( "bit", 6, 1, 12) );
   gui.add( osc1_group );
   gui.setPosition(5, 5);
 

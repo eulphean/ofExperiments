@@ -57,7 +57,11 @@ class ofApp : public ofBaseApp{
     
     pdsp::Decimator     decimator;
   
-    // Method to play the track with PDSP add on. 
+    pdsp::BitNoise    noise;
+  
+  float noiseGain;
+  
+    // Method to play the track with PDSP add on.
     void playWithPDSP(int val, int trackNum);
   
     // Speed or decimator mode.
