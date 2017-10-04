@@ -8,6 +8,7 @@ void ofApp::setup(){
   //ofSetLogLevel(OF_LOG_VERBOSE);
     
   ofBackground(30, 30, 30);
+  receive.setup(PORT);
   
   // See if we have a valid Kinect hooked to the system.
   ofxKinectV2 tmp;
@@ -22,21 +23,47 @@ void ofApp::setup(){
     panel.add(kinect->params);
   }
   
-  // Load track.
+  // Load track1.
   track1.load("howtostillmind.mp3");
   track1.setVolume(0.75f);
   track1.setLoop(true);
   
-  // Start playing the track.
-  // TODO: Hook it up with Touch OSC later.
-  track1.play();
+  // Load track2.
+  track2.load("metronome.mp3");
+  track2.setVolume(0.75f);
+  track2.setLoop(true);
   
   panel.loadFromFile("settings.xml");
 }
 
 void ofApp::updateSound() {
   float newSpeed = ofMap(avgBrightness, 150, 165, 1.0f, 0.3f, true);
-  track1.setSpeed(newSpeed);
+  
+  // Current track's speed.
+  if (currentTrack != NULL) {
+    currentTrack -> setSpeed(newSpeed);
+  }
+}
+
+void ofApp::setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack) {
+  if (val) {
+    // Check if there is alread a currentTrack that's playing.
+    // Stop that track.
+    if (currentTrack != NULL) {
+      currentTrack -> stop();
+      currentTrack = NULL;
+    }
+    
+    currentTrack = newCurrentTrack;
+    currentTrack -> play();
+  } else {
+    
+    // Stop the track if there is a valid current track.
+    if (currentTrack != NULL) {
+      currentTrack -> stop();
+      currentTrack = NULL;
+    }
+  }
 }
 
 //--------------------------------------------------------------
@@ -46,6 +73,7 @@ void ofApp::update(){
   int numPixels = 0;
   int sumBrightness = 0;
   
+  // Kinect updates
   if (kinect != NULL){
     kinect->update();
     if( kinect->isFrameNew() ){
@@ -83,6 +111,32 @@ void ofApp::update(){
       }
     }
   }
+  
+  // Touch OSC updates.
+  while (receive.hasWaitingMessages()) {
+    ofxOscMessage m;
+    // Set the next message.
+    #pragma warning(disable: WARNING_CODE)
+    receive.getNextMessage(&m);
+    
+    // Pause/play Track1.
+    if (m.getAddress() == "/3/toggle1") {
+      int val = m.getArgAsInt(0);
+      setCurrentTrackAndPlay(val, &track1);
+    }
+    
+    // Pause/play Track2.
+    if (m.getAddress() == "/3/toggle2") {
+      int val = m.getArgAsInt(0);
+      setCurrentTrackAndPlay(val, &track2);
+    }
+    
+    // Turn on Decimation mode, else stay on speed control.
+    if (m.getAddress() == "/3/toggle3") {
+      int val = m.getArgAsInt(0);
+      
+    }
+  }
 }
 
 //--------------------------------------------------------------
@@ -90,18 +144,15 @@ void ofApp::draw(){
   // Depth texture at 10,10.
   depthTexture.draw(0, 0);
   
-  ofPushStyle();
+  /*ofPushStyle();
   
-  // Draw a small circle at (avgX, avgY)
-  ofSetColor(ofColor::purple);
-  ofFill();
-  ofDrawCircle(avgX, avgY, 20);
-  ofDrawBitmapString(avgBrightness, ofGetWidth()/2, ofGetHeight()/2);
+    // Draw a small circle at (avgX, avgY)
+    ofSetColor(ofColor::purple);
+    ofFill();
+    ofDrawCircle(avgX, avgY, 20);
+    ofDrawBitmapString(avgBrightness, ofGetWidth()/2, ofGetHeight()/2);
   
-  ofPopStyle();
-  
-  // Change the sound based on avgBrightness.
-  // Map the brightness to speed of the sound.
+  ofPopStyle();*/
   
   // Threshold panel.
   panel.draw();

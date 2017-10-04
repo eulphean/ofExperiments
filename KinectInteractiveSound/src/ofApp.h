@@ -3,6 +3,9 @@
 #include "ofMain.h"
 #include "ofxKinectV2.h"
 #include "ofxGui.h"
+#include "ofxOsc.h"
+
+#define PORT 8000
 
 class ofApp : public ofBaseApp{
 
@@ -24,5 +27,14 @@ class ofApp : public ofBaseApp{
     float avgY;
     float avgBrightness;
   
-    ofSoundPlayer track1; 
+  
+    void setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack);
+    
+    ofxOscReceiver receive;
+    ofVec2f mappedOsc;
+    ofSoundPlayer *currentTrack = NULL;
+  
+    ofSoundPlayer track1;
+    ofSoundPlayer track2;
+    ofSoundPlayer track3;
 };

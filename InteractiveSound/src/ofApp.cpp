@@ -31,10 +31,6 @@ void ofApp::updateSound() {
   if (currentTrack != NULL) {
     currentTrack -> setSpeed(newSpeed);
   }
-  
-  // y => Volume will increase as we move farther in y - direction.
-  /*float newVolume = ofMap(mappedOsc.y, 0, ofGetHeight(), 0.1f, 2.0f);
-  currentTrack -> setVolume(newVolume);*/
 }
 
 void ofApp::setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack) {

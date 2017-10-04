@@ -1,2 +1,7 @@
+ofxAssimpModelLoader
 ofxGui
 ofxKinectV2
+ofxMidi
+ofxOsc
+ofxPDSP
+ofxSIMDFloats
