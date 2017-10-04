@@ -4,6 +4,7 @@
 #include "ofxKinectV2.h"
 #include "ofxGui.h"
 #include "ofxOsc.h"
+#include "ofxPDSP.h"
 
 #define PORT 8000
 
@@ -17,8 +18,10 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
   
-  void updateSound();
+    // Sound methods. 
+    void updateSound();
   
+    // Kinect parameters.
     ofxPanel panel;
     ofxKinectV2 * kinect;
     ofTexture depthTexture;
@@ -28,8 +31,8 @@ class ofApp : public ofBaseApp{
     float avgBrightness;
   
   
+    // Touch OSC parameters.
     void setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack);
-    
     ofxOscReceiver receive;
     ofVec2f mappedOsc;
     ofSoundPlayer *currentTrack = NULL;
@@ -37,4 +40,28 @@ class ofApp : public ofBaseApp{
     ofSoundPlayer track1;
     ofSoundPlayer track2;
     ofSoundPlayer track3;
+  
+    // PDSP parameters.
+    ofxPDSPEngine   engine;
+    
+    pdsp::Sampler       sampler0;
+    pdsp::Sampler       sampler1;
+    pdsp::Amp           amp0;
+    pdsp::Amp           amp1;
+    
+    pdsp::SampleBuffer  sample;
+    pdsp::ADSR          env;
+    
+    ofxPDSPTrigger envGate;
+    ofxPDSPTrigger sampleTrig;
+    
+    pdsp::Decimator     decimator;
+  
+    // Method to play the track with PDSP add on. 
+    void playWithPDSP(int val, int trackNum);
+  
+    // Speed or decimator mode.
+    bool isDecimatorMode = false;
+  
+    bool isPlaying = false;
 };

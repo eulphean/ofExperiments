@@ -4,9 +4,6 @@ using namespace std;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-  //Uncomment for verbose info from libfreenect2
-  //ofSetLogLevel(OF_LOG_VERBOSE);
-    
   ofBackground(30, 30, 30);
   receive.setup(PORT);
   
@@ -34,18 +31,52 @@ void ofApp::setup(){
   track2.setLoop(true);
   
   panel.loadFromFile("settings.xml");
+  
+  //--------PATCHING-------
+  // Sample 0, 1 are taking the sample buffer.
+  sampler0.addSample( &sample, 0 );
+  sampler1.addSample( &sample, 1 );
+
+  // ADSR Trigger - Without this the sample wouldn't play.
+  envGate >> env >> amp0.in_mod();
+  env >> amp1.in_mod();
+  
+  // Setup the trigger to the sampler to the audio output. 
+  sampleTrig >> sampler0 >> amp0 >> decimator >> engine.audio_out(0);
+  sampleTrig >> sampler1 >> amp1 >> decimator >> engine.audio_out(1);
+
+  //------------SETUPS AND START AUDIO-------------
+  engine.listDevices();
+  engine.setDeviceID(1); // REMEMBER TO SET THIS AT THE RIGHT INDEX!!!!
+  engine.setup( 44100, 512, 3);
 }
 
 void ofApp::updateSound() {
-  float newSpeed = ofMap(avgBrightness, 150, 165, 1.0f, 0.3f, true);
-  
-  // Current track's speed.
-  if (currentTrack != NULL) {
-    currentTrack -> setSpeed(newSpeed);
+  if (!isDecimatorMode) {
+    // If I'm in speed mode, update the speed of the track.
+    float newSpeed = ofMap(avgBrightness, 150, 165, 1.0f, 0.3f, true);
+    
+    // Current track's speed.
+    if (currentTrack != NULL) {
+      currentTrack -> setSpeed(newSpeed);
+    }
+  } else {
+    // Calculate the new decimator frequency based on the brightness.
+    float newDecimatorFrequency = ofMap(avgBrightness, 150, 160, 20000, 1000, true);
+    
+    // Feed it to the decimator patch.
+    newDecimatorFrequency >> decimator.in_freq();
   }
 }
 
 void ofApp::setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack) {
+  isDecimatorMode = false;
+  
+  if (isPlaying) {
+    envGate.off();
+    isPlaying = false;
+  }
+  
   if (val) {
     // Check if there is alread a currentTrack that's playing.
     // Stop that track.
@@ -65,6 +96,48 @@ void ofApp::setCurrentTrackAndPlay(int val, ofSoundPlayer * newCurrentTrack) {
     }
   }
 }
+
+void ofApp::playWithPDSP(int val, int trackNum) {
+  if (val == 0) {
+    isPlaying = false;
+    envGate.off();
+    return;
+  }
+  
+  isDecimatorMode = true;
+  
+  if (currentTrack != NULL) {
+      currentTrack -> stop();
+      currentTrack = NULL;
+  }
+  
+  // Check if a track is already being played with sampleBuffer. Stop that
+  // before loading and playing another track.
+  
+  if (isPlaying) {
+      envGate.off();
+  }
+  
+  switch (trackNum) {
+      case 1:
+        sample.load("/Users/amaykataria/Documents/of_v0.9.8_osx_release/apps/Experiments/KinectInteractiveSound/bin/data/howtostillmind.mp3");
+        break;
+      
+      case 2:
+        sample.load("/Users/amaykataria/Documents/of_v0.9.8_osx_release/apps/Experiments/KinectInteractiveSound/bin/data/metronome.mp3");
+        break;
+      
+      default:
+        break;
+  }
+
+  
+  // Trigger the sample and let it go.
+  sampleTrig.trigger(1.0f);
+  envGate.trigger(1.0f);
+  isPlaying = true;
+}
+
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -131,9 +204,16 @@ void ofApp::update(){
       setCurrentTrackAndPlay(val, &track2);
     }
     
-    // Turn on Decimation mode, else stay on speed control.
+    // Play Track1 with decimation mode.
     if (m.getAddress() == "/3/toggle3") {
       int val = m.getArgAsInt(0);
+      playWithPDSP(val, 1);
+    }
+    
+    // Play Track2 with decimation mode.
+    if (m.getAddress() == "/3/toggle4") {
+      int val = m.getArgAsInt(0);
+      playWithPDSP(val, 2);
       
     }
   }
@@ -144,15 +224,15 @@ void ofApp::draw(){
   // Depth texture at 10,10.
   depthTexture.draw(0, 0);
   
-  /*ofPushStyle();
+  ofPushStyle();
   
     // Draw a small circle at (avgX, avgY)
-    ofSetColor(ofColor::purple);
-    ofFill();
-    ofDrawCircle(avgX, avgY, 20);
-    ofDrawBitmapString(avgBrightness, ofGetWidth()/2, ofGetHeight()/2);
+    //ofSetColor(ofColor::purple);
+    //ofFill();
+    //ofDrawCircle(avgX, avgY, 20);
+    ofDrawBitmapString(avgBrightness, ofGetWidth()/2 + 20, ofGetHeight()/2 + 20);
   
-  ofPopStyle();*/
+  ofPopStyle();
   
   // Threshold panel.
   panel.draw();
