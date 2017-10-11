@@ -11,8 +11,11 @@ int length = 20;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+  ofBackground(ofColor::black);
+  
   // Read the decimal file and store it in memory.
-  inputFile.open("audioDecimal.txt");
+  inputFile1.open("imageZipConverted.txt");
+  inputFile2.open("imageConverted.txt");
   
   string stringDec;
   
@@ -20,9 +23,9 @@ void ofApp::setup(){
   maxDecimal = -9999;
   minDecimal = 9999;
   
-  if (inputFile.is_open())
+  if (inputFile1.is_open())
   {
-    while (getline(inputFile, stringDec))
+    while (getline(inputFile1, stringDec))
     {
       // Convert string to decimal and push into the vector. 
       int decimal = stoi(stringDec);
@@ -37,11 +40,38 @@ void ofApp::setup(){
         minDecimal = decimal;
       }
       
-      decimals.push_back(decimal);
+      decimals1.push_back(decimal);
     }
     
     // Close the file
-    inputFile.close();
+    inputFile1.close();
+    cout << "Success: File read successfully.";
+  } else {
+    cout << "Unable to open this file." << endl;
+  }
+  
+  if (inputFile2.is_open())
+  {
+    while (getline(inputFile2, stringDec))
+    {
+      // Convert string to decimal and push into the vector.
+      int decimal = stoi(stringDec);
+      
+      // Calculate maxima.
+      if (decimal > maxDecimal) {
+        maxDecimal = decimal;
+      }
+      
+      // Calculate minima.
+      if (decimal < minDecimal) {
+        minDecimal = decimal;
+      }
+      
+      decimals2.push_back(decimal);
+    }
+    
+    // Close the file
+    inputFile2.close();
     cout << "Success: File read successfully.";
   } else {
     cout << "Unable to open this file." << endl;
@@ -56,19 +86,39 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  // Ask Chris if there is a way to print this.
-  // int numOfRectangles = decimals.size()/1000;
+  cam.begin();
   
-  // Iterator for the color.
-  vector<int>::iterator it = decimals.begin();
-  for (int y = 0; y <= ofGetHeight(); y += length) {
-    for (int x = 0; x <= ofGetWidth(); x += length) {
-      // Calculate the new color.
-      float hue = ofMap(*it, minDecimal, maxDecimal, 0, 255);
-      ofSetColor(ofColor::fromHsb(hue, 255, 255));
+  // TODO: Control this with a GUI handle
+  int numOfSamples = decimals1.size();
+  
+  // Go through numOfSample and for every three samples, plot them on
+  // x, y, z
+  ofVec3f origin (0, 0, 0);
+  for (int i = 0; i < numOfSamples; i=i+3) {
+    ofVec3f position(decimals1[i]*5, decimals1[i+1]*5, decimals1[i+2]*5);
+    ofPushMatrix();
+      ofTranslate(position);
+      //ofSetColor(ofColor(decimals[i], decimals[i+1], decimals[i+2]));
+      ofSetColor(ofColor::fromHsb(ofRandom(255), 255, 255));
       ofFill();
-      ofDrawRectangle(x, y, length, length);
-      it++;
-    }
+      ofDrawLine(origin, position);
+      //ofDrawBox(2);
+    ofPopMatrix();
   }
+  
+  /*numOfSamples = decimals2.size();
+  // Go through numOfSample and for every three samples, plot them on
+  // x, y, z
+  for (int i = 0; i < numOfSamples; i=i+3) {
+    ofVec3f position(decimals2[i]*2, decimals1[i+1]*5, decimals1[i+2]*5);
+    ofPushMatrix();
+    ofTranslate(position-1000);
+    //ofSetColor(ofColor(decimals[i], decimals[i+1], decimals[i+2]));
+    ofSetColor(ofColor::fromHsb(ofRandom(255), 255, 255));
+    ofFill();
+    ofDrawBox(2);
+    ofPopMatrix();
+  }*/
+  
+  cam.end();
 }
