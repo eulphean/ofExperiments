@@ -7,6 +7,8 @@ ofPoint center;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+  ofBackground(ofColor::black);
+  
   // Read the decimal file and store it in memory.
   inputFile.open("audioDecimal.txt");
   
@@ -52,23 +54,23 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  // Ask Chris if there is a way to print this.
-  int numOfLines = decimals.size()/500;
-  float offset = ofGetWidth() / numOfLines;
+  cam.begin();
   
-  // Iterator for the color
-  vector<int>::iterator it = decimals.begin();
-  for (float y = 0; y <= ofGetHeight(); y += offset) {
-    // Calculate the color by mapping the current decimal to Hue value.
-    float hue = ofMap(*it, minDecimal, maxDecimal, 0, 255);
-    ofSetColor(ofColor::fromHsb(hue, 255, 255));
-    
-    ofPoint from (0, y);
-    ofPoint to (ofGetWidth(), y);
-    
-    ofDrawLine(from, to);
-    
-    // Increment iterator for next color.
-    it++;
+  // Ask Chris if there is a way to print this.
+  // TODO: Control this with a GUI handle
+  int numOfSamples = decimals.size();
+  
+  // Go through numOfSample and for every three samples, plot them on
+  // x, y, z
+  for (int i = 0; i < numOfSamples; i=i+3) {
+    ofVec3f position(decimals[i] * 10, decimals[i+1] * 10, decimals[i+2] * 10);
+    ofPushMatrix();
+      ofTranslate(position);
+      ofSetColor(ofColor(decimals[i], decimals[i+1], decimals[i+2]));
+      ofFill();
+      ofDrawBox(2);
+    ofPopMatrix();
   }
+  
+  cam.end();
 }

@@ -16,4 +16,7 @@ class ofApp : public ofBaseApp{
     // Maximum and minimum.
     int maxDecimal;
     int minDecimal;
+  
+    // 3D Camera
+    ofEasyCam cam;
 };
