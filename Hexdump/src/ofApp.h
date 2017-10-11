@@ -10,8 +10,10 @@ class ofApp : public ofBaseApp{
 		void draw();
   
     // Input file.
-    ofFile inputFile;
-    vector<int> decimals;
+    ofFile inputFile1;
+    ofFile inputFile2;
+    vector<int> decimals1;
+    vector<int> decimals2;
   
     // Maximum and minimum.
     int maxDecimal;
