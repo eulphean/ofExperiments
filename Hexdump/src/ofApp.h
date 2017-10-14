@@ -19,6 +19,15 @@ class ofApp : public ofBaseApp{
     int maxDecimal;
     int minDecimal;
   
+    // ofPath
+    ofPath myPath;
+  
+    // ofPixels
+    ofPixels pixels;
+  
+    // Texture
+  ofTexture texture;
+  
     // 3D Camera
     ofEasyCam cam;
 };
