@@ -9,6 +9,148 @@
 		<string>46</string>
 		<key>objects</key>
 		<dict>
+			<key>28CD9659C1D4E430F1B9C2E4</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>4</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>Delaunay.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxDelaunay/libs/Delaunay/src/Delaunay.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>F2BA67D6A643AE8D5667A268</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>1E2A7B869B0465AEBF28825D</string>
+					<string>28CD9659C1D4E430F1B9C2E4</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>src</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>A7F935964A1EB7154C211E37</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>F2BA67D6A643AE8D5667A268</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>Delaunay</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>4DDDE89A215FFC6D84084F64</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>A7F935964A1EB7154C211E37</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>libs</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>87A34EBC0F47C29339CF1D28</key>
+			<dict>
+				<key>fileRef</key>
+				<string>1E2A7B869B0465AEBF28825D</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>1E2A7B869B0465AEBF28825D</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>4</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>Delaunay.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxDelaunay/libs/Delaunay/src/Delaunay.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>8AA89AFF4E71C7EC510642B7</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>4</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxDelaunay.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxDelaunay/src/ofxDelaunay.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>BA7CA251A8C3541F18ECFFC2</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>BBE3E908E4BB3468853C50ED</string>
+					<string>8AA89AFF4E71C7EC510642B7</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>src</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>5A296432AD6765AD9158F813</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>BA7CA251A8C3541F18ECFFC2</string>
+					<string>4DDDE89A215FFC6D84084F64</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>ofxDelaunay</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>9102D0609CDD0B902F138C68</key>
+			<dict>
+				<key>fileRef</key>
+				<string>BBE3E908E4BB3468853C50ED</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>BBE3E908E4BB3468853C50ED</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>4</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxDelaunay.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxDelaunay/src/ofxDelaunay.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>6948EE371B920CB800B5AC1A</key>
 			<dict>
 				<key>children</key>
@@ -140,6 +282,10 @@ fi
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
+						<string>../../../addons/ofxDelaunay/libs</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay/src</string>
+						<string>../../../addons/ofxDelaunay/src</string>
 					</array>
 					<key>CONFIGURATION_BUILD_DIR</key>
 					<string>$(SRCROOT)/bin/</string>
@@ -200,6 +346,10 @@ fi
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
+						<string>../../../addons/ofxDelaunay/libs</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay/src</string>
+						<string>../../../addons/ofxDelaunay/src</string>
 					</array>
 					<key>COMBINE_HIDPI_IMAGES</key>
 					<string>YES</string>
@@ -238,7 +388,9 @@ fi
 			<key>BB4B014C10F69532006C3DED</key>
 			<dict>
 				<key>children</key>
-				<array />
+				<array>
+					<string>5A296432AD6765AD9158F813</string>
+				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
 				<key>name</key>
@@ -255,7 +407,7 @@ fi
 				<key>name</key>
 				<string>openFrameworksLib.xcodeproj</string>
 				<key>path</key>
-				<string>../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj</string>
+				<string>../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
@@ -393,6 +545,10 @@ fi
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
+						<string>../../../addons/ofxDelaunay/libs</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay/src</string>
+						<string>../../../addons/ofxDelaunay/src</string>
 					</array>
 					<key>CONFIGURATION_BUILD_DIR</key>
 					<string>$(SRCROOT)/bin/</string>
@@ -451,6 +607,10 @@ fi
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
+						<string>../../../addons/ofxDelaunay/libs</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay/src</string>
+						<string>../../../addons/ofxDelaunay/src</string>
 					</array>
 					<key>CONFIGURATION_BUILD_DIR</key>
 					<string>$(SRCROOT)/bin/</string>
@@ -507,6 +667,8 @@ fi
 				<array>
 					<string>E4B69E200A3A1BDC003C02F2</string>
 					<string>E4B69E210A3A1BDC003C02F2</string>
+					<string>9102D0609CDD0B902F138C68</string>
+					<string>87A34EBC0F47C29339CF1D28</string>
 				</array>
 				<key>isa</key>
 				<string>PBXSourcesBuildPhase</string>
@@ -593,6 +755,10 @@ fi
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
+						<string>../../../addons/ofxDelaunay/libs</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay/src</string>
+						<string>../../../addons/ofxDelaunay/src</string>
 					</array>
 					<key>COMBINE_HIDPI_IMAGES</key>
 					<string>YES</string>
@@ -636,6 +802,10 @@ fi
 					<array>
 						<string>$(OF_CORE_HEADERS)</string>
 						<string>src</string>
+						<string>../../../addons/ofxDelaunay/libs</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay</string>
+						<string>../../../addons/ofxDelaunay/libs/Delaunay/src</string>
+						<string>../../../addons/ofxDelaunay/src</string>
 					</array>
 					<key>COMBINE_HIDPI_IMAGES</key>
 					<string>YES</string>
@@ -809,7 +979,7 @@ echo "$GCC_PREPROCESSOR_DEFINITIONS";
 				<key>name</key>
 				<string>CoreOF.xcconfig</string>
 				<key>path</key>
-				<string>../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig</string>
+				<string>../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>

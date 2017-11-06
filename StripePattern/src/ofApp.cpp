@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int numOfLines = 40;
+int numOfLines = 60;
 bool screenShot = false;
 int maxLength = 250;
 int defaultLength = 100;
@@ -60,10 +60,10 @@ void drawLine() {
   
   if (useConstantLength) {
     length = defaultLength;
-    hue = ofMap(maxLength, 0, maxLength, 0, 255);
+    hue = ofMap(ofGetHeight(), 0, ofGetHeight(), 0, 255);
   } else {
-    length = ofRandom(0, maxLength);
-    hue = ofMap(length, 0, maxLength, 0, 255);
+    length = ofRandom(0, ofGetHeight());
+    hue = ofMap(length, 0, ofGetHeight(), 0, 255);
   }
   
   ofSetColor(ofColor::fromHsb(hue, 255, 255));
@@ -91,6 +91,7 @@ void ofApp::stripePattern() {
 
     // Draw lines along the base curve.
     drawLine();
+    //drawCircle();
     
     // Reset the coordinate system.
     ofPopMatrix();

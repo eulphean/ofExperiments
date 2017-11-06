@@ -11,10 +11,6 @@ void ofApp::setup(){
   ofSetCircleResolution(70);
   ofEnableSmoothing();
   
-  img.load("bowie.png");
-  img.setImageType(OF_IMAGE_GRAYSCALE);
-  img.resize(300, 220);
-  
   save = false;
 }
 
@@ -83,6 +79,11 @@ void ofApp::draw() {
     }
   }
   
+  if (currentKey == 52) {
+      mesh.draw();
+      img.draw(0, 0);
+  }
+  
   if (save) {
     ofEndSaveScreenAsPDF();
     save = false;
@@ -90,6 +91,18 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
+  if (bright.size() > 0) {
+    bright.clear();
+  }
+  
+  if (mids.size() > 0) {
+    mids.clear();
+  }
+  
+  if (dark.size() > 0) {
+    dark.clear();
+  }
+  
   if (mesh.hasVertices()) {
     mesh.clear();
   }
@@ -140,19 +153,40 @@ void ofApp::keyPressed(int key) {
     
     case 51 : {
       currentKey = 51;
-      const int pixelSkip = 5;
-      mesh.setMode(OF_PRIMITIVE_LINES);
+      img.load("bowie.png");
+      img.setImageType(OF_IMAGE_GRAYSCALE);
+      img.resize(300, 220);
+      int pixelSkip = 5;
       
       for (int x=0; x < img.getWidth() ; x = x + pixelSkip) {
         for (int y=0; y< img.getHeight(); y = y + pixelSkip) {
           float brightness = img.getColor(x, y).getBrightness();
-          ofVec3f pos(x*4, y*4, 0);
+          ofVec3f pos(x*2, y*2, 0);
           if (brightness >= 150) {
             bright.push_back(pos);
           } else if (brightness >= 75 && brightness < 150) {
             mids.push_back(pos);
           } else {
             dark.push_back(pos);
+          }
+        }
+      }
+      break;
+    }
+    
+    case 52: {
+      currentKey = 52;
+      img.load("tree.png");
+      //img.resize(400, 38000);
+      mesh.setMode(OF_PRIMITIVE_POINTS);
+      
+      int pixelSkip = 5;
+      for (int x=0; x < img.getWidth() ; x = x + pixelSkip) {
+        for (int y=0; y< img.getHeight(); y = y + pixelSkip) {
+          float brightness = img.getColor(x, y).getBrightness();
+          if (brightness < 100) {
+            ofVec3f pos(x, y, 0);
+            mesh.addVertex(pos);
           }
         }
       }

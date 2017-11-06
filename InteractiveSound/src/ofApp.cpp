@@ -9,7 +9,7 @@ void ofApp::setup(){
   ofSetFrameRate(60);
   
   // Set black background.
-  ofSetBackgroundColor(ofColor::black);
+  ofSetBackgroundColor(ofColor::white);
   
   // Load and play the track.
   track1.load("track.wav");

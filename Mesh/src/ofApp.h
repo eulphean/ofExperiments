@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxDelaunay.h"
 
 class ofApp : public ofBaseApp{
 
@@ -19,6 +20,8 @@ class ofApp : public ofBaseApp{
     vector<ofVec3f> bright;
     vector<ofVec3f> mids;
     vector<ofVec3f> dark;
+  
+    ofxDelaunay triangulation;
   
     void keyPressed(int key);
 };
